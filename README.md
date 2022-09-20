@@ -109,13 +109,13 @@ ReactDOM.render(
 
 - There is quite a few of logic mixing up with the UI, that makes it hard to read, debug and test.
 
-- The structure of this project should be more organised. A good folder structure is more readable, maintainable and scalable as well as easier to test. For example helper function like formattedSeconds could be in the helper folder. Lap could be a new component(with its own folder) inside the components folder. Seperation of concerns is always a good design partern/principle to be aware.
+- The structure of this project should be more organised. A good folder structure is more readable, maintainable and scalable as well as easier to test. For example helper function like formattedSeconds could be in the helper folder. Lap could be a new component(with its own folder) inside the components folder. Separation of concerns is always a good design pattern/principle to be aware.
 
 - Index should not be using as key, especially using it to mutate data, or it will cause some serious UI issues in certain scenarios. Unless the list is a static list and will not change. In this case, it uses index to delete individual lap, so the UI will not work properly after deleting a few laps. It's better to use unique id to remove each item.
 
 - Functional component(react hooks) is a better choice that is much easier to read and test, also end up with less code, there also may be a performance boost for functional component as the React team mentioned before.
 
-- Using alternative state management could be benificial, such as context api or redux/toolkit, it might sound like a lot for using redux for this small project, even context api is good enough for this. On the other hand, redux toolkit is definitely one of the efficient state management libraries to be adaptive for big projects. This is why I took this chance to learn redux toolkit and typescript with very little prior knowledge and applied them on spot into this test.
+- Using alternative state management could be beneficial, such as context api or redux/toolkit, it might sound like a lot for using redux for this small project, even context api is good enough for this. On the other hand, redux toolkit is definitely one of the efficient state management libraries to be adaptive for big projects. This is why I took this chance to learn redux toolkit and typescript with very little prior knowledge and applied them on spot into this test.
 
 # Conclusion
 
