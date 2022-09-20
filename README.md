@@ -119,7 +119,7 @@ ReactDOM.render(
 
 # Conclusion
 
-I might not be the most experienced candidate, but as it happens more and more often that I did something I thought I was not able to solove and achieve, this is when I know I am ready to become a developer.
+I might not be the most experienced candidate, but as it happens more and more often that I did something I thought I was not able to solve and achieve, this is when I know I am ready to become a developer.
 
 Please feel free to view my version of code for this test, here is my attached demo link: https://stopwatch-technical-test.netlify.app
 
