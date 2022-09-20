@@ -91,14 +91,15 @@ function App() {
         Reset
       </button>
       <div className="lap__container">
-        {lap.map((lap) => (
-          <LapCard
-            id={lap.id}
-            minute={lap.minute}
-            second={lap.second}
-            millisecond={lap.millisecond}
-          />
-        ))}
+        {lap &&
+          lap.map((lap) => (
+            <LapCard
+              id={lap.id}
+              minute={lap.minute}
+              second={lap.second}
+              millisecond={lap.millisecond}
+            />
+          ))}
       </div>
     </div>
   );

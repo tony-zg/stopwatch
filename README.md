@@ -1,46 +1,101 @@
-# Getting Started with Create React App
+Please detail what is wrong with the below code, and why. Also where applicable, mention what you would do differently?
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Component, ClassAttributes } from "react";
 
-## Available Scripts
+const formattedSeconds = (sec: number) => {
+    Math.floor(sec / 60) + ':' + ('0' + sec % 60).slice(-2);
+}
 
-In the project directory, you can run:
+interface StopwatchProps extends ClassAttributes<Stopwatch> {
+initialSeconds: number;
+}
 
-### `npm start`
+class Stopwatch extends Component<StopwatchProps, any> {
+    incrementer: any
+    laps: any[]
+    constructor(props: StopwatchProps) {
+        super(props);
+        this.state = {
+            secondsElapsed: props.initialSeconds,
+            lastClearedIncrementer: null,
+        }
+        this.laps = [];
+    }
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    handleStartClick() {
+        this.incrementer = setInterval(() =>
+        this.setState({
+            secondsElapsed: this.state.secondsElapsed + 1,
+        }), 1000);
+    }
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    handleStopClick() {
+        clearInterval(this.incrementer);
+        this.setState({
+            lastClearedIncrementer: this.incrementer,
+        });
+    }
 
-### `npm test`
+    handleResetClick() {
+        clearInterval(this.incrementer);
+        this.laps = [],
+        this.setState({
+            secondsElapsed: 0,
+        });
+    }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    handleLabClick() {
+        this.laps = this.laps.concat([this.state.secondsElapsed]);
+        this.forceUpdate();
+    }
 
-### `npm run build`
+    handleDeleteClick(index: number) {
+         return () => this.laps.splice(index, 1);
+    }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    render() {
+        const {
+            secondsElapsed,
+            lastClearedIncrementer,
+        } = this.state;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+        return (
+            <div className="stopwatch">
+            <h1 className="stopwatch-timer">{formattedSeconds(secondsElapsed)}</h1>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+            {
+                (secondsElapsed === 0 || this.incrementer === lastClearedIncrementer ? <button type= "button" className="start-btn" onClick = { this.handleStartClick } > start < /button> :      <button type="button" className="stop-btn" onClick={this.handleStopClick}>stop</button>)
+            }
 
-### `npm run eject`
+            {
+                (secondsElapsed !== 0 && this.incrementer !== lastClearedIncrementer ? <button type= "button" onClick = { this.handleLabClick } > lap < /button> : null)
+            }
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+            {
+                (secondsElapsed !== 0 && this.incrementer === lastClearedIncrementer ? <button type= "button" onClick = { this.handleResetClick } > reset < /button> : null)
+            }
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+            <div className="stopwatch-laps">
+            {
+                this.laps && this.laps.map((lap, i) => <Lap index={ i+ 1} lap = { lap } onDelete = { this.handleDeleteClick(i) } />)
+            }
+            </div>
+            </div>
+        );
+    }
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const Lap = (props: { index: number, lap: number, onDelete: () => {} }) => (
+    <div key={props.index} className="stopwatch-lap">
+        <strong>{props.index}</strong>/ {formattedSeconds(props.lap)} <button onClick={props.onDelete} > X </button>
+    </div>
+);
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ReactDOM.render(
+<Stopwatch initialSeconds={0} />,
+document.getElementById("content"),
+);
+```
